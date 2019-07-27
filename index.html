@@ -2,17 +2,18 @@
 <body>
 
 <script>
+document.body.style.textAlign = 'center';
 var canvas = document.createElement('canvas');
 document.body.append(canvas);
 canvas.height = window.innerHeight;
-canvas.width = window.innerWidth;
+canvas.width = canvas.height/1.5;
 
 var ctx = canvas.getContext('2d');
 ctx.strokeStyle = 'blue';
 ctx.lineWidth = 1;
 ctx.beginPath();
 
-var lineGap = 12;
+var lineGap = 10;
 var i = 0;
 ctx.fillStyle = "white";
 var bgSwitch = false;
