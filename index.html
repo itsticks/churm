@@ -1,0 +1,65 @@
+<html>
+<body>
+
+<script>
+var canvas = document.createElement('canvas');
+document.body.append(canvas);
+canvas.height = window.innerHeight;
+canvas.width = window.innerWidth;
+
+var ctx = canvas.getContext('2d');
+ctx.strokeStyle = 'navy';
+ctx.fillStyle = 'red';
+ctx.lineWidth = 1;
+ctx.beginPath();
+
+var lineGap = 10;
+var i = 0;
+
+//for(var i=0;i<canvas.width;i=i+10){
+function step(){
+  var line = new Path2D();
+
+// top to bottom along x
+line.moveTo(i,0);
+line.lineTo(i,canvas.height);
+//ctx.stroke(line);
+
+//middle y to x centre top along x
+line.moveTo(i,canvas.height/2);
+line.lineTo(canvas.width/2,0);
+//ctx.stroke(line);
+
+//middle y to x centre bottom along x
+line.moveTo(i,canvas.height/2);
+line.lineTo(canvas.width/2,canvas.height);
+ctx.stroke(line);
+  
+  if(i%lineGap*2==0){
+   line.moveTo(i,0);
+    if(i<canvas.width/2){
+   line.lineTo(0,canvas.height/2);
+      line.moveTo(i,canvas.height);
+   line.lineTo(0,canvas.height/2);
+
+    }else{
+      line.lineTo(canvas.width,canvas.height/2);
+      line.moveTo(i,canvas.height);
+   line.lineTo(canvas.width,canvas.height/2);
+
+    }
+    ctx.stroke(line);
+   }
+
+  if(i<canvas.width){
+   i=i+lineGap;
+  window.requestAnimationFrame(step);
+  }
+}
+
+  window.requestAnimationFrame(step);
+
+
+</script>
+</body>
+</html>
