@@ -24,46 +24,97 @@ ctx.beginPath();
 
 var lineGap = 10;
 var i = 0;
-ctx.fillStyle = "white";
+ctx.fillStyle = "black";
 var bgSwitch = false;
 ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-function step(){
-  var line = new Path2D();
-
-// top to bottom along x
+function verticalLines(gap){
+var line = new Path2D();
+for(var i=0;i<canvas.width;i=i+gap){
 line.moveTo(i,0);
 line.lineTo(i,canvas.height);
+}
+ctx.stroke(line);
+}
 
-//middle y to x centre top along x
+function middleToBottomAndTopCentres(gap){
+  var line = new Path2D();
+for(var i=0;i<canvas.width;i=i+gap){
+  //middle y to x centre top along x
 line.moveTo(i,canvas.height/2);
 line.lineTo(canvas.width/2,0);
 
 //middle y to x centre bottom along x
 line.moveTo(i,canvas.height/2);
 line.lineTo(canvas.width/2,canvas.height);
+}
 ctx.stroke(line);
-  
-  if(i%lineGap*2==0){
-   line.moveTo(i,0);
-    if(i<canvas.width/2){
-   line.lineTo(0,canvas.height/2);
-      line.moveTo(i,canvas.height);
-   line.lineTo(0,canvas.height/2);
+}
 
-    }else{
+function fourCorners(gap){
+  var line = new Path2D();
+  for(var i=0;i<canvas.width;i=i+gap){
+    if(i%lineGap*2==0){
+    line.moveTo(i,0);
+    if(i<canvas.width/2){
+      line.lineTo(0,canvas.height/2);
+      line.moveTo(i,canvas.height);
+      line.lineTo(0,canvas.height/2);
+    }
+    else {
       line.lineTo(canvas.width,canvas.height/2);
       line.moveTo(i,canvas.height);
-   line.lineTo(canvas.width,canvas.height/2);
-
+      line.lineTo(canvas.width,canvas.height/2);
     }
-    ctx.stroke(line);
    }
-
-  if(i<canvas.width){
-   i=i+lineGap;
-  window.requestAnimationFrame(step);
   }
+  ctx.stroke(line);
+
+}
+
+var varGap = 10;
+var varGapDirection = 1
+var varGap2 = 10;
+var varGapDirection2 = -1
+var varGap3 = 10;
+var varGapDirection3 = 1
+var stepCount = 0;
+
+function step(){
+  if(stepCount%8==0){
+  if(varGap==30){
+    varGapDirection = -1
+  }
+  if(varGap==1){
+    varGapDirection = 1;
+  }
+  varGap = varGap + varGapDirection;
+
+  if(varGap2==19){
+    varGapDirection2 = -1
+  }
+  if(varGap2==3){
+    varGapDirection2 = 1;
+  }
+  varGap2 = varGap2 + varGapDirection2;
+
+  if(varGap3==11){
+    varGapDirection3 = -1
+  }
+  if(varGap3==9){
+    varGapDirection3 = 1;
+  }
+  varGap3 = varGap3 + varGapDirection3;
+
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.strokeStyle = 'blue';
+  verticalLines(varGap3);
+  middleToBottomAndTopCentres(varGap);
+  ctx.strokeStyle = 'orange';
+  fourCorners(varGap);
+  }
+  window.requestAnimationFrame(step);
+  stepCount++
 }
 
   window.requestAnimationFrame(step);
@@ -71,12 +122,10 @@ ctx.stroke(line);
   canvas.onclick = function(){
   i=0;
     
-      ctx.fillStyle = bgSwitch ? "white" : "black";
+      ctx.fillStyle = bgSwitch ? "black" : "white";
     bgSwitch = !bgSwitch;
 ctx.fillRect(0, 0, canvas.width, canvas.height);
     
-   window.requestAnimationFrame(step);
-
   }
 
 
