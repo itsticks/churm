@@ -9,26 +9,25 @@ canvas.width = window.innerWidth;
 
 var ctx = canvas.getContext('2d');
 ctx.strokeStyle = 'navy';
-ctx.fillStyle = 'red';
 ctx.lineWidth = 1;
 ctx.beginPath();
 
-var lineGap = 10;
+var lineGap = 12;
 var i = 0;
+ctx.fillStyle = "white";
+var bgSwitch = false;
+ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-//for(var i=0;i<canvas.width;i=i+10){
 function step(){
   var line = new Path2D();
 
 // top to bottom along x
 line.moveTo(i,0);
 line.lineTo(i,canvas.height);
-//ctx.stroke(line);
 
 //middle y to x centre top along x
 line.moveTo(i,canvas.height/2);
 line.lineTo(canvas.width/2,0);
-//ctx.stroke(line);
 
 //middle y to x centre bottom along x
 line.moveTo(i,canvas.height/2);
@@ -58,6 +57,17 @@ ctx.stroke(line);
 }
 
   window.requestAnimationFrame(step);
+  
+  document.body.onclick = function(){
+  i=0;
+    
+      ctx.fillStyle = bgSwitch ? "white" : "black";
+    bgSwitch = !bgSwitch;
+ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+   window.requestAnimationFrame(step);
+
+  }
 
 
 </script>
