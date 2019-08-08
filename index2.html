@@ -1,0 +1,116 @@
+<html>
+<head>
+  <style>
+  * {
+    padding:0;
+    margin:0;
+  }
+  </style>
+</head>
+
+<body>
+
+<script>
+document.body.style.textAlign = 'center';
+var canvas = document.createElement('canvas');
+document.body.append(canvas);
+canvas.height = window.innerHeight;
+canvas.width = canvas.height/1.5 <= window.innerWidth ? canvas.height/1.5 : window.innerWidth;
+canvas.style.cursor = 'none';
+
+var ctx = canvas.getContext('2d');
+ctx.strokeStyle = 'blue';
+ctx.lineWidth = 1;
+ctx.beginPath();
+
+var lineGap =10;
+var i = 0;
+ctx.fillStyle = "white";
+var bgSwitch = false;
+ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+function horizontalLines(gap, count){
+  ctx.strokeStyle = 'blue';
+  ctx.lineWidth = 2;
+var line = new Path2D();
+var increment = 0;
+for(var i=canvas.height;i>0;i=i-gap){
+  line.moveTo(0,i-gap+increment);
+  line.lineTo(canvas.width,i+increment);
+  increment = count;
+}
+ctx.stroke(line);
+}
+
+function arcs(count){
+  ctx.beginPath();
+
+  //count = count < canvas.height ? count : 0;
+  ctx.strokeStyle = 'red';
+  ctx.lineWidth = 1;
+  var gap = lineGap;
+  var increment = 0;
+  var pos = 0;
+  for(var i=1;i<canvas.height;i=i+gap){
+  pos = i-count;
+  ctx.moveTo(0,pos);
+  //ctx.bezierCurveTo(canvas.width/3,i+50+increment,(canvas.width/3)*2,i+50,canvas.width,i+increment);
+  ctx.quadraticCurveTo(canvas.width/2,pos-(gap*2),canvas.width,pos);
+  increment = increment+5;
+  ctx.stroke();
+ }
+}
+
+function outline(){
+  ctx.lineWidth = 3;
+  ctx.strokeRect(0, 0, canvas.width, canvas.height);
+}
+
+function middleToBottomAndTopCentres(gap){
+var line = new Path2D();
+for(var i=0;i<canvas.width;i=i+gap){
+  //middle y to x centre top along x
+line.moveTo(i,canvas.height/2);
+line.lineTo(canvas.width/2,0);
+
+//middle y to x centre bottom along x
+line.moveTo(i,canvas.height/2);
+line.lineTo(canvas.width/2,canvas.height);
+}
+ctx.stroke(line);
+}
+
+
+var varGap = 10;
+var stepCount = 0;
+
+function step(){
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.stroke();
+ // ctx.globalAlpha = 1;
+  ctx.strokeStyle = 'red';
+  outline();
+  arcs(stepCount);
+  horizontalLines(lineGap, stepCount);
+
+if(stepCount<530){
+  window.requestAnimationFrame(step);
+}
+  stepCount++
+}
+
+  window.requestAnimationFrame(step);
+  
+  canvas.onclick = function(){
+  i=0;
+    
+      ctx.fillStyle = bgSwitch ? "white" : "black";
+    bgSwitch = !bgSwitch;
+ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+  }
+
+
+</script>
+</body>
+</html>

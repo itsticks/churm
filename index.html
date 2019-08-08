@@ -16,6 +16,7 @@ var canvas = document.createElement('canvas');
 document.body.append(canvas);
 canvas.height = window.innerHeight;
 canvas.width = canvas.height/1.5 <= window.innerWidth ? canvas.height/1.5 : window.innerWidth;
+canvas.style.cursor = 'none';
 
 var ctx = canvas.getContext('2d');
 ctx.strokeStyle = 'blue';
@@ -81,7 +82,7 @@ var varGapDirection3 = 1
 var stepCount = 0;
 
 function step(){
-  if(stepCount%8==0){
+  if(stepCount%2==0){
   if(varGap==37){
     varGapDirection = -1
   }
@@ -107,11 +108,13 @@ function step(){
   varGap3 = varGap3 + varGapDirection3;
 
   ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.globalAlpha = 1;
   ctx.strokeStyle = 'blue';
-  verticalLines(varGap3);
+  verticalLines(lineGap);
+  ctx.strokeStyle = 'purple';
   middleToBottomAndTopCentres(varGap);
-  ctx.strokeStyle = 'orange';
-  fourCorners(varGap);
+  ctx.strokeStyle = 'blue';
+  fourCorners(lineGap);
   }
   window.requestAnimationFrame(step);
   stepCount++
