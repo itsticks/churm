@@ -15,7 +15,7 @@ document.body.style.textAlign = 'center';
 var canvas = document.createElement('canvas');
 document.body.append(canvas);
 canvas.height = window.innerHeight;
-canvas.width = canvas.height/1.5 <= window.innerWidth ? canvas.height/1.5 : window.innerWidth;
+canvas.width = window.innerWidth;//canvas.height/1.5 <= window.innerWidth ? canvas.height/1.5 : window.innerWidth;
 canvas.style.cursor = 'none';
 
 var ctx = canvas.getContext('2d');
